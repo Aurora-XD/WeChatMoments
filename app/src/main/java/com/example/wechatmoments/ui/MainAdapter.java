@@ -28,7 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Profile myProfile = new Profile();
     List<Tweet> tweets = new ArrayList<>();
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.header_background)
         ImageView mBackground;
@@ -41,11 +41,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public static class TweetViewHolder extends RecyclerView.ViewHolder{
+    public static class TweetViewHolder extends RecyclerView.ViewHolder {
 
         public TweetViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case MAIN_HEADER:
                 View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_header, parent, false);
                 HeaderViewHolder headerViewHolder = new HeaderViewHolder(inflate);
@@ -74,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof HeaderViewHolder){
+        if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).mNickName.setText(myProfile.getNick());
             Glide.with(holder.itemView.getContext())
                     .load(myProfile.getProfileImage())
@@ -88,15 +88,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
+        if (position == 0) {
             return MAIN_HEADER;
-        }else {
+        } else {
             return MAIN_TWEET;
         }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 1 + tweets.size();
     }
 }

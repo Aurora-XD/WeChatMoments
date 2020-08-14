@@ -12,7 +12,7 @@ public class MainRepository {
         this.apiService = apiService;
     }
 
-    public Maybe<Profile> getProfile(){
+    public Maybe<Profile> getProfile() {
         return apiService.getProfile();
     }
 }

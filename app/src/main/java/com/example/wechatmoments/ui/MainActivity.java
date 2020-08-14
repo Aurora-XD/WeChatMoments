@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(Profile profile) {
                 Log.d("TAG", "onChanged: "+profile.toString());
                 mainAdapter.setMyProfile(profile);
+                mainAdapter.notifyDataSetChanged();
             }
         });
 
