@@ -13,6 +13,7 @@
     <dimen name="main_nick_name_bottom_margin">10dp</dimen>
     <dimen name="main_news_padding_horizontal">30dp</dimen>
 
+    <dimen name="basic_font_size_12">12sp</dimen>
     <dimen name="basic_font_size_14">14sp</dimen>
     <dimen name="basic_font_size_16">16sp</dimen>
     <dimen name="basic_font_size_18">18sp</dimen>

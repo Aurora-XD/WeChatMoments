@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -76,20 +77,30 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView(R.id.tweet_comments)
         RecyclerView mTweetCommits;
 
-        private TweetImageAdapter mTweetImageAdapter;
+        private TweetImageAdapter tweetImageAdapter;
+        private TweetCommentAdapter tweetCommentAdapter;
 
         public TweetViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            initTweetsViewHolder(mTweetImages);
+            initTweetsViewAdapter(mTweetImages);
+            initTweetCommentViewAdapter(mTweetCommits);
         }
 
-        private void initTweetsViewHolder(RecyclerView mTweetImages) {
+        private void initTweetsViewAdapter(RecyclerView mTweetImages) {
             mTweetImages.setHasFixedSize(true);
             mTweetImages.setLayoutManager(new GridLayoutManager(mTweetImages.getContext(), 3));
 
-            mTweetImageAdapter = new TweetImageAdapter();
-            mTweetImages.setAdapter(mTweetImageAdapter);
+            tweetImageAdapter = new TweetImageAdapter();
+            mTweetImages.setAdapter(tweetImageAdapter);
+        }
+
+        private void initTweetCommentViewAdapter(RecyclerView mTweetCommits) {
+            mTweetCommits.setHasFixedSize(true);
+            mTweetCommits.setLayoutManager(new LinearLayoutManager(mTweetCommits.getContext()));
+
+            tweetCommentAdapter = new TweetCommentAdapter();
+            mTweetCommits.setAdapter(tweetCommentAdapter);
         }
 
         private void bindToTweetsViewHolder(Tweet tweet) {
@@ -101,10 +112,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 this.mSenderContent.setText(tweet.getContent());
             }
             if (Objects.nonNull(tweet.getImages()) && tweet.getImages().size() > 0) {
-                this.mTweetImageAdapter.setImages(tweet.getImages());
+                this.tweetImageAdapter.setImages(tweet.getImages());
+            }
+            if (Objects.nonNull(tweet.getComments()) && tweet.getComments().size() > 0) {
+                this.tweetCommentAdapter.setComments(tweet.getComments());
             }
         }
-
     }
 
     public void setMyProfile(Profile myProfile) {
