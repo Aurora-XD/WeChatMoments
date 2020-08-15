@@ -49,7 +49,7 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "AvatarDto{" +
+        return "Avatar{" +
                 "profileImage='" + profileImage + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", nick='" + nick + '\'' +

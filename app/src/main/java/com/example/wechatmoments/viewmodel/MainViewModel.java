@@ -8,7 +8,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.wechatmoments.model.Profile;
+import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.repository.MainRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,11 +25,16 @@ public class MainViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MainRepository mainRepository;
     private MutableLiveData<Profile> myProfile = new MutableLiveData<>();
+    private MutableLiveData<List<Tweet>> allTweets = new MutableLiveData<>();
 
     private static final String TAG = "MainViewModel";
 
     public void observeMyProfile(LifecycleOwner lifecycleOwner, Observer<Profile> observer) {
         myProfile.observe(lifecycleOwner, observer);
+    }
+
+    public void observeAllTweets(LifecycleOwner lifecycleOwner, Observer<List<Tweet>> observer) {
+        allTweets.observe(lifecycleOwner, observer);
     }
 
     public void setUserRepository(MainRepository mainRepository) {
@@ -46,6 +55,41 @@ public class MainViewModel extends ViewModel {
                 });
 
         compositeDisposable.add(getProfileDisposable);
+    }
+
+//    public void getTweets() {
+//        Disposable getTweetsDisposable = mainRepository.getTweets()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnComplete(() -> Log.d(TAG, "getProfile failed!"))
+//                .subscribe(new Consumer<List<Tweet>>() {
+//                    @Override
+//                    public void accept(List<Tweet> tweets) throws Exception {
+//                        allTweets.setValue(tweets.stream().filter(item -> !item.isEmpty()).collect(Collectors.toList()));
+//                    }
+//                });
+//
+//        compositeDisposable.add(getTweetsDisposable);
+//    }
+
+    public void getTweets() {
+        Disposable getTweetsDisposable = mainRepository.getTweets()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Tweet>>() {
+                    @Override
+                    public void accept(List<Tweet> tweets) throws Exception {
+                        allTweets.setValue(tweets.stream().filter(item -> !item.isEmpty()).collect(Collectors.toList()));
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Throwable e = throwable;
+                        Log.d(TAG, "accept: "+e.getStackTrace());
+                    }
+                });
+
+        compositeDisposable.add(getTweetsDisposable);
     }
 
     @Override

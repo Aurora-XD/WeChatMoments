@@ -58,7 +58,7 @@ public class Tweet {
 
     @Override
     public String toString() {
-        return "TweetsDto{" +
+        return "Tweets{" +
                 "content='" + content + '\'' +
                 ", images=" + images +
                 ", sender=" + sender +

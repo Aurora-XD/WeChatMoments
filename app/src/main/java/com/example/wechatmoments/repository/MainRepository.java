@@ -7,6 +7,7 @@ import com.example.wechatmoments.model.Tweet;
 import java.util.List;
 
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 public class MainRepository {
     private ApiService apiService;
@@ -19,7 +20,7 @@ public class MainRepository {
         return apiService.getProfile();
     }
 
-    public Maybe<List<Tweet>> getTweets(){
+    public Observable<List<Tweet>> getTweets(){
         return apiService.getTweets();
     }
 }

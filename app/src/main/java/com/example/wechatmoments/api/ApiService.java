@@ -7,6 +7,7 @@ import com.example.wechatmoments.util.Constants;
 import java.util.List;
 
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
@@ -19,7 +20,7 @@ public interface ApiService {
     Maybe<Profile> getProfile();
 
     @GET(TWEETS)
-    Maybe<List<Tweet>> getTweets();
+    Observable<List<Tweet>> getTweets();
 
     public static ApiService getServiceInstance() {
         return NetworkService.getRetrofit(Constants.BASE_PATH, GsonConverterFactory.create()).create(ApiService.class);

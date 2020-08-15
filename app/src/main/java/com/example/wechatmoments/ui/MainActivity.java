@@ -12,8 +12,11 @@ import android.util.Log;
 import com.example.wechatmoments.MainApplication;
 import com.example.wechatmoments.R;
 import com.example.wechatmoments.model.Profile;
+import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.repository.MainRepository;
 import com.example.wechatmoments.viewmodel.MainViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainViewModel.getTweets();
+
+        mainViewModel.observeAllTweets(this, new Observer<List<Tweet>>() {
+            @Override
+            public void onChanged(List<Tweet> tweets) {
+                Log.d("TAG", "Tweets on Changed!" + tweets.get(0).toString());
+                mainAdapter.setTweets(tweets);
+                mainAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private MainViewModel obtainViewModel() {

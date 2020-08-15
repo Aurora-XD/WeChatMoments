@@ -1,5 +1,6 @@
 package com.example.wechatmoments.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +48,24 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class TweetViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tweet_sender_avatar)
+        ImageView mSenderAvatar;
+
+        @BindView(R.id.tweet_sender_nick_name)
+        TextView mSenderName;
+
+        @BindView(R.id.tweet_content)
+        TextView mSenderContent;
+
+        @BindView(R.id.tweet_images)
+        RecyclerView mTweetImages;
+
+        @BindView(R.id.tweet_comments)
+        RecyclerView mTweetCommits;
+
         public TweetViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 
@@ -65,9 +82,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case MAIN_HEADER:
-                View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_header, parent, false);
-                HeaderViewHolder headerViewHolder = new HeaderViewHolder(inflate);
+                View header = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_header, parent, false);
+                HeaderViewHolder headerViewHolder = new HeaderViewHolder(header);
                 return headerViewHolder;
+            case MAIN_TWEET:
+                View tweets = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_tweet, parent, false);
+                TweetViewHolder tweetViewHolder = new TweetViewHolder(tweets);
+                return tweetViewHolder;
         }
         return null;
     }
@@ -82,6 +103,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Glide.with(holder.itemView.getContext())
                     .load(myProfile.getAvatar())
                     .into(((HeaderViewHolder) holder).mAvatar);
+        }else {
+            TweetViewHolder tweetViewHolder = (TweetViewHolder) holder;
+            Tweet tweet = tweets.get(position - 1);
+            Glide.with(tweetViewHolder.itemView.getContext())
+                    .load(tweet.getSender().getAvatar())
+                    .into(tweetViewHolder.mSenderAvatar);
+            tweetViewHolder.mSenderName.setText(tweet.getSender().getNick());
+            tweetViewHolder.mSenderContent.setText(tweet.getContent());
         }
 
     }
