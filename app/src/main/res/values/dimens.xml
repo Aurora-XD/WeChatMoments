@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_profile_image_ratio">H, 480:280</string>
+
+    <dimen name="main_border_margin">15dp</dimen>
+    <dimen name="main_profile_avatar_bottom_margin">20dp</dimen>
+    <dimen name="main_divide_line_margin">50dp</dimen>
+    <dimen name="main_divide_line_height">1dp</dimen>
+    <dimen name="main_profile_avatar_height">80dp</dimen>
+    <dimen name="main_tweet_sender_avatar_height">50dp</dimen>
+    <dimen name="main_nick_name_bottom_margin">10dp</dimen>
+    <dimen name="main_news_padding_horizontal">30dp</dimen>
+
+    <dimen name="basic_font_size_16">16sp</dimen>
+    <dimen name="basic_font_size_18">18sp</dimen>
+    <dimen name="basic_font_size_20">20sp</dimen>
+</resources>
