@@ -1,5 +1,6 @@
 package com.example.wechatmoments.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +16,10 @@ import com.example.wechatmoments.model.Profile;
 import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.repository.MainRepository;
 import com.example.wechatmoments.viewmodel.MainViewModel;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.main_smart_refresh)
+    SmartRefreshLayout mSmartRefreshLayout;
 
     private MainViewModel mainViewModel;
     private MainAdapter mainAdapter;
@@ -62,6 +70,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", "Tweets on Changed!" + tweets.get(0).toString());
                 mainAdapter.setTweets(tweets);
                 mainAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mSmartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mainViewModel.getProfile();
+                mainViewModel.getTweets();
+                refreshLayout.finishRefresh(true);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mainViewModel.getTweets();
+                refreshLayout.finishRefresh(true);
             }
         });
     }
