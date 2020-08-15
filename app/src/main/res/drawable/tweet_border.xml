@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:bottom="@dimen/main_divide_line_height"
+    android:top="@dimen/main_tweet_top_border_width"
+    android:start="@dimen/main_tweet_top_border_width"
+    android:end="@dimen/main_tweet_top_border_width">
+    <shape android:shape="rectangle">
+        <stroke android:color="@color/basic_pale_grey_2" android:width="@dimen/main_divide_line_height"/>
+    </shape>
+</item>
+</layer-list>

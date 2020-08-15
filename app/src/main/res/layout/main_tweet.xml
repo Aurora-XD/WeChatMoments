@@ -3,19 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/main_border_margin"
+    android:background="@drawable/tweet_border">
 
-    <ImageView
-        android:id="@+id/tweet_sender_avatar"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="2"
-        android:scaleType="centerCrop"/>
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/tweet_sender_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"/>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_weight="8"
-        android:layout_height="wrap_content">
+        android:layout_weight="9"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/main_border_margin">
 
         <TextView
             android:id="@+id/tweet_sender_nick_name"
@@ -24,22 +32,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:gravity="left"/>
+            android:gravity="left"
+            android:textColor="@color/basic_grey_blue"
+            android:textStyle="bold"
+            android:textSize="@dimen/basic_font_size_16" />
 
         <TextView
             android:id="@+id/tweet_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/tweet_sender_nick_name"
-            app:layout_constraintTop_toBottomOf="@id/tweet_sender_nick_name" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_sender_nick_name"
+            android:textSize="@dimen/basic_font_size_14"
+            android:textColor="@color/basic_navy_two"
+            android:layout_marginTop="@dimen/main_tweet_content_border_margin"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tweet_images"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tweet_content"/>
+            app:layout_constraintTop_toBottomOf="@id/tweet_content"
+            android:layout_marginTop="@dimen/main_tweet_content_border_margin"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tweet_comments"
@@ -47,7 +62,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tweet_images"/>
+            app:layout_constraintTop_toBottomOf="@+id/tweet_images"
+            android:layout_marginTop="@dimen/main_tweet_content_border_margin"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
