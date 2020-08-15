@@ -110,12 +110,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.mSenderName.setText(tweet.getSender().getNick());
             if (!StringUtils.isEmpty(tweet.getContent())) {
                 this.mSenderContent.setText(tweet.getContent());
+            }else {
+                this.mSenderContent.setVisibility(View.GONE);
             }
             if (Objects.nonNull(tweet.getImages()) && tweet.getImages().size() > 0) {
                 this.tweetImageAdapter.setImages(tweet.getImages());
+            }else {
+                this.mTweetImages.setVisibility(View.GONE);
             }
             if (Objects.nonNull(tweet.getComments()) && tweet.getComments().size() > 0) {
                 this.tweetCommentAdapter.setComments(tweet.getComments());
+            }else {
+                this.mTweetCommits.setVisibility(View.GONE);
             }
         }
     }

@@ -57,35 +57,15 @@ public class MainViewModel extends ViewModel {
         compositeDisposable.add(getProfileDisposable);
     }
 
-//    public void getTweets() {
-//        Disposable getTweetsDisposable = mainRepository.getTweets()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnComplete(() -> Log.d(TAG, "getProfile failed!"))
-//                .subscribe(new Consumer<List<Tweet>>() {
-//                    @Override
-//                    public void accept(List<Tweet> tweets) throws Exception {
-//                        allTweets.setValue(tweets.stream().filter(item -> !item.isEmpty()).collect(Collectors.toList()));
-//                    }
-//                });
-//
-//        compositeDisposable.add(getTweetsDisposable);
-//    }
-
     public void getTweets() {
         Disposable getTweetsDisposable = mainRepository.getTweets()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(() -> Log.d(TAG, "getProfile failed!"))
                 .subscribe(new Consumer<List<Tweet>>() {
                     @Override
                     public void accept(List<Tweet> tweets) throws Exception {
                         allTweets.setValue(tweets.stream().filter(item -> !item.isEmpty()).collect(Collectors.toList()));
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Throwable e = throwable;
-                        Log.d(TAG, "accept: "+e.getStackTrace());
                     }
                 });
 
