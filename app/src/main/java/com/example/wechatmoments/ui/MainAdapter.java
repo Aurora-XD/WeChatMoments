@@ -1,6 +1,5 @@
 package com.example.wechatmoments.ui;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,8 +15,11 @@ import com.example.wechatmoments.R;
 import com.example.wechatmoments.model.Profile;
 import com.example.wechatmoments.model.Tweet;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +47,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        private void bindToHeaderViewHolder(Profile myProfile) {
+            this.mNickName.setText(myProfile.getNick());
+            Glide.with(this.itemView.getContext())
+                    .load(myProfile.getProfileImage())
+                    .into(this.mBackground);
+            Glide.with(this.itemView.getContext())
+                    .load(myProfile.getAvatar())
+                    .into(this.mAvatar);
+        }
     }
 
     public static class TweetViewHolder extends RecyclerView.ViewHolder {
@@ -63,10 +76,35 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView(R.id.tweet_comments)
         RecyclerView mTweetCommits;
 
+        private TweetImageAdapter mTweetImageAdapter;
+
         public TweetViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+            initTweetsViewHolder(mTweetImages);
         }
+
+        private void initTweetsViewHolder(RecyclerView mTweetImages) {
+            mTweetImages.setHasFixedSize(true);
+            mTweetImages.setLayoutManager(new GridLayoutManager(mTweetImages.getContext(), 3));
+
+            mTweetImageAdapter = new TweetImageAdapter();
+            mTweetImages.setAdapter(mTweetImageAdapter);
+        }
+
+        private void bindToTweetsViewHolder(Tweet tweet) {
+            Glide.with(this.itemView.getContext())
+                    .load(tweet.getSender().getAvatar())
+                    .into(this.mSenderAvatar);
+            this.mSenderName.setText(tweet.getSender().getNick());
+            if (!StringUtils.isEmpty(tweet.getContent())) {
+                this.mSenderContent.setText(tweet.getContent());
+            }
+            if (Objects.nonNull(tweet.getImages()) && tweet.getImages().size() > 0) {
+                this.mTweetImageAdapter.setImages(tweet.getImages());
+            }
+        }
+
     }
 
     public void setMyProfile(Profile myProfile) {
@@ -96,21 +134,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).mNickName.setText(myProfile.getNick());
-            Glide.with(holder.itemView.getContext())
-                    .load(myProfile.getProfileImage())
-                    .into(((HeaderViewHolder) holder).mBackground);
-            Glide.with(holder.itemView.getContext())
-                    .load(myProfile.getAvatar())
-                    .into(((HeaderViewHolder) holder).mAvatar);
-        }else {
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            headerViewHolder.bindToHeaderViewHolder(myProfile);
+        } else {
             TweetViewHolder tweetViewHolder = (TweetViewHolder) holder;
-            Tweet tweet = tweets.get(position - 1);
-            Glide.with(tweetViewHolder.itemView.getContext())
-                    .load(tweet.getSender().getAvatar())
-                    .into(tweetViewHolder.mSenderAvatar);
-            tweetViewHolder.mSenderName.setText(tweet.getSender().getNick());
-            tweetViewHolder.mSenderContent.setText(tweet.getContent());
+            tweetViewHolder.bindToTweetsViewHolder(tweets.get(position - 1));
         }
 
     }
@@ -128,4 +156,5 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return 1 + tweets.size();
     }
+
 }
